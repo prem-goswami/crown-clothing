@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider } from 'firebase/auth'
+import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
 
 
@@ -24,7 +24,8 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, provider)
 
 export const db = getFirestore()
 
-export const createUserDocumentFromAuth = async (userAuth) => {
+export const createUserDocumentFromAuth = async (userAuth, additionalINformation = {}) => {
+    if(!userAuth) return;
     const userDocRef = doc(db, 'users', userAuth.uid)
     console.log(userDocRef)
 
@@ -32,20 +33,40 @@ export const createUserDocumentFromAuth = async (userAuth) => {
     console.log(userSnapshot)
     console.log(userSnapshot.exists())
 
-    if(!userSnapshot.exists()){
-        const {displayName, email} = userAuth
+    if (!userSnapshot.exists()) {
+        const { displayName, email } = userAuth
         const createdAt = new Date()
-        try{
+        try {
 
             await setDoc(userDocRef, {
                 displayName,
                 email,
-                createdAt
+                createdAt,
+                ...additionalINformation
             });
 
-        }catch(error){
+        } catch (error) {
             console.log('error Created by User', error.message)
         }
     }
     return userDocRef
 }
+
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+    if (!email || !password) return;
+    return await createUserWithEmailAndPassword(auth, email, password);
+  };
+
+
+  export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+    if (!email || !password) return;
+    return await signInWithEmailAndPassword(auth, email, password);
+  };
+
+  
+
+// export const createAuthUserWithEmailAndPassword = async (email, password) => {
+//     if (!email || !password)return;
+
+//     return await createAuthUserWithEmailAndPassword(auth, email, password)
+// }
