@@ -2,7 +2,7 @@ import { useState } from "react"
 
 import FormInput from "../form-input/form-input.component"
 
-import Button from "../button/button.component"
+import Button, {ButtonTypes} from "../button/button.component"
 
 import {createUserDocumentFromAuth, signInWithGooglePopup, signInAuthUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils"
 import './signIn-form.scss'
@@ -62,7 +62,7 @@ const SignInForm = () => {
                 <FormInput label="Password" type='password' required onChange={setPasswordText} value={password} />
                 <div className="buttons-container">
                     <Button type="submit"> Sign In</Button>
-                    <Button type="button" onClick={signInWithGoogle} buttonType="google"> Google Sign In</Button>
+                    <Button type="button" onClick={signInWithGoogle} buttonType={ButtonTypes.google}> Google Sign In</Button>
                 </div>
             </form>
         </div>
