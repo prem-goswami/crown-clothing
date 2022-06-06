@@ -7,7 +7,7 @@ const CategoryItem = (props) => {
         <CategoryContainer to={route}>
             <BackgroundImage className='background-image' imageUrl = {imageUrl} />
             <CategoryBody >
-                <h2>{title}</h2>
+                <h2>{title.toUpperCase()}</h2>
                 <p>Shop Now</p>
             </CategoryBody>
         </CategoryContainer>
