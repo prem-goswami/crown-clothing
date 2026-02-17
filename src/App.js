@@ -10,8 +10,9 @@ import { UserContext } from "./contexts/user.contexts";
 
 const RequireAuth = ({ children }) => {
   const { currentUser } = useContext(UserContext);
+  const isPostSignup = sessionStorage.getItem("isPostSignup") === "true";
 
-  if (!currentUser) {
+  if (!currentUser || isPostSignup) {
     return <Navigate to="/sign-in" replace />;
   }
 
@@ -20,8 +21,9 @@ const RequireAuth = ({ children }) => {
 
 const RedirectIfAuthenticated = ({ children }) => {
   const { currentUser } = useContext(UserContext);
+  const isPostSignup = sessionStorage.getItem("isPostSignup") === "true";
 
-  if (currentUser) {
+  if (currentUser && !isPostSignup) {
     return <Navigate to="/" replace />;
   }
 

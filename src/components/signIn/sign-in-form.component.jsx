@@ -31,6 +31,7 @@ const SignInForm = () => {
 
   const signInWithGoogle = async () => {
     await signInWithGooglePopup();
+    sessionStorage.removeItem("isPostSignup");
   };
 
   const handelSubmit = async (event) => {
@@ -38,6 +39,7 @@ const SignInForm = () => {
 
     try {
       await signInAuthUserWithEmailAndPassword(email, password);
+      sessionStorage.removeItem("isPostSignup");
       resetFormFields();
     } catch (error) {
       console.log(error);

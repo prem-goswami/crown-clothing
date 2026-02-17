@@ -1,5 +1,6 @@
-import { createContext, useReducer } from 'react';
+import { createContext, useContext, useEffect, useReducer } from 'react';
 import {createAction} from '../utils/reducer/reducer.utils'
+import { UserContext } from './user.contexts';
 
 const CART_ACTION_TYPES = {
     SET_CART_ITEMS: 'SET_CART_ITEMS',
@@ -86,6 +87,7 @@ export const CartProvider = ({ children }) => {
     // const [cartTotal, setCartTotal] = useState(0)
 
     const [{ cartItems, cartCount, cartTotal, isCartOpen }, dispatch] = useReducer(cartReducer, INITIAL_STATE)
+    const { currentUser } = useContext(UserContext)
 
     const updateCartItemReducer = (newCartItems) => {
         const newCartCount = newCartItems.reduce((initialCount, cartIem) => initialCount + cartIem.quantity, 0)
@@ -133,6 +135,13 @@ export const CartProvider = ({ children }) => {
     const setIsCartOpen = (bool) => {
         dispatch(createAction(CART_ACTION_TYPES.SET_CART_OPEN,bool))
     }
+
+    useEffect(() => {
+        if (!currentUser) {
+            updateCartItemReducer([])
+            setIsCartOpen(false)
+        }
+    }, [currentUser])
 
     const value = { isCartOpen, setIsCartOpen, cartItems, addItemToCart, cartCount, removeItemToCart, deleteItemFromCart, cartTotal };
 

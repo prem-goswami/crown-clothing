@@ -23,6 +23,19 @@ min-width: 165px;
       color: black;
       border: 1px solid black;
     }
+
+    &:disabled {
+      background-color: #8a8a8a;
+      color: #f2f2f2;
+      border: none;
+      cursor: not-allowed;
+    }
+
+    &:disabled:hover {
+      background-color: #8a8a8a;
+      color: #f2f2f2;
+      border: none;
+    }
 `;
 
 export const GoogleSignIn = styled(BaseButton)`
